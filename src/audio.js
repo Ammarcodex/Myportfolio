@@ -1,17 +1,37 @@
-// Generative space ambience built with the Web Audio API (no audio files).
-// A low drone, filtered "solar wind" noise and echoing pentatonic pings.
-// Scroll speed tightens the ping rhythm, speeds the drone's wobble and opens
-// the filters; scroll depth slowly raises the pitch.
+// Calm generative space ambience built with the Web Audio API (no audio files).
+// A soft pad drifting through slow chords, breathing filtered "space air",
+// and sparse bell-like twinkles, all bathed in a long reverb.
+// Scrolling gently quickens the twinkles and chord changes and brightens the
+// pad; it never gets loud or busy.
 
-const SCALE = [0, 3, 5, 7, 10, 12, 15, 17, 19, 22];
-const BASE = 55; // A1
+const midi = (m) => 440 * Math.pow(2, (m - 69) / 12);
+// Cmaj9 → Am9 → Fmaj7(#11) → Gsus2: open, unresolved, restful.
+const CHORDS = [
+  [48, 52, 55, 59, 62],
+  [45, 48, 52, 55, 59],
+  [41, 45, 48, 52, 59],
+  [43, 45, 50, 55, 57]
+].map((chord) => chord.map(midi));
+// C major pentatonic, two octaves up: always consonant over the pad.
+const TWINKLE = [72, 74, 76, 79, 81, 84, 86, 88].map(midi);
+
+function impulse(ctx, seconds, decay) {
+  const length = Math.floor(ctx.sampleRate * seconds);
+  const buffer = ctx.createBuffer(2, length, ctx.sampleRate);
+  for (let ch = 0; ch < 2; ch++) {
+    const data = buffer.getChannelData(ch);
+    for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
+  }
+  return buffer;
+}
 
 export function createSpaceAudio() {
   let ctx = null;
   let n = null;
   let on = false;
-  let nextNote = 0;
-  let step = 0;
+  let chordIndex = 0;
+  let nextChord = 0;
+  let nextTwinkle = 0;
   let suspendTimer = 0;
 
   function build() {
@@ -19,90 +39,101 @@ export function createSpaceAudio() {
     const master = ctx.createGain();
     master.gain.value = 0;
     const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -20;
+    comp.ratio.value = 3;
     master.connect(comp).connect(ctx.destination);
 
-    // Long feedback echo, darkened each repeat, for the sense of empty space.
-    const delay = ctx.createDelay(2);
-    delay.delayTime.value = 0.46;
-    const feedback = ctx.createGain();
-    feedback.gain.value = 0.5;
-    const damp = ctx.createBiquadFilter();
-    damp.type = 'lowpass';
-    damp.frequency.value = 2200;
-    const wet = ctx.createGain();
-    wet.gain.value = 0.55;
-    delay.connect(damp).connect(feedback).connect(delay);
-    damp.connect(wet).connect(master);
+    const reverb = ctx.createConvolver();
+    reverb.buffer = impulse(ctx, 4.5, 2.6);
+    const reverbLevel = ctx.createGain();
+    reverbLevel.gain.value = 0.9;
+    reverb.connect(reverbLevel).connect(master);
 
-    // Drone: detuned stack through a resonant low-pass, its cutoff swept by an LFO.
-    const droneFilter = ctx.createBiquadFilter();
-    droneFilter.type = 'lowpass';
-    droneFilter.frequency.value = 380;
-    droneFilter.Q.value = 4;
-    const droneGain = ctx.createGain();
-    droneGain.gain.value = 0.22;
-    droneFilter.connect(droneGain).connect(master);
-    const droneSend = ctx.createGain();
-    droneSend.gain.value = 0.12;
-    droneGain.connect(droneSend).connect(delay);
-    const drones = [[1, 'sawtooth', -6, 0.22], [1.5, 'triangle', 4, 0.32], [2, 'sine', 0, 0.35], [3, 'sine', 7, 0.18]].map(([mul, type, detune, level]) => {
-      const osc = ctx.createOscillator();
-      osc.type = type;
-      osc.frequency.value = BASE * mul;
-      osc.detune.value = detune;
-      const g = ctx.createGain();
-      g.gain.value = level;
-      osc.connect(g).connect(droneFilter);
-      osc.start();
-      return { osc, mul };
+    // Pad: five voices, each a sine + a slightly detuned triangle, softly filtered.
+    const padFilter = ctx.createBiquadFilter();
+    padFilter.type = 'lowpass';
+    padFilter.frequency.value = 900;
+    padFilter.Q.value = 0.5;
+    const padGain = ctx.createGain();
+    padGain.gain.value = 0.11;
+    padFilter.connect(padGain);
+    padGain.connect(master);
+    padGain.connect(reverb);
+    // Slow swell so the pad breathes instead of sitting still.
+    const swell = ctx.createOscillator();
+    swell.frequency.value = 0.05;
+    const swellDepth = ctx.createGain();
+    swellDepth.gain.value = 0.035;
+    swell.connect(swellDepth).connect(padGain.gain);
+    swell.start();
+    const voices = CHORDS[0].map((freq) => {
+      const oscs = [['sine', 0, 0.6], ['triangle', 6, 0.25]].map(([type, detune, level]) => {
+        const osc = ctx.createOscillator();
+        osc.type = type;
+        osc.frequency.value = freq;
+        osc.detune.value = detune;
+        const g = ctx.createGain();
+        g.gain.value = level;
+        osc.connect(g).connect(padFilter);
+        osc.start();
+        return osc;
+      });
+      return oscs;
     });
-    const lfo = ctx.createOscillator();
-    lfo.frequency.value = 0.08;
-    const lfoDepth = ctx.createGain();
-    lfoDepth.gain.value = 180;
-    lfo.connect(lfoDepth).connect(droneFilter.frequency);
-    lfo.start();
 
-    // Solar wind: looping white noise through a moving band-pass.
-    const buffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    // Space air: low-passed noise with a slow, wave-like sweep.
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * 3, ctx.sampleRate);
     const data = buffer.getChannelData(0);
-    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    let brown = 0;
+    for (let i = 0; i < data.length; i++) {
+      brown = (brown + 0.02 * (Math.random() * 2 - 1)) / 1.02;
+      data[i] = brown * 3.5;
+    }
     const noise = ctx.createBufferSource();
     noise.buffer = buffer;
     noise.loop = true;
-    const windFilter = ctx.createBiquadFilter();
-    windFilter.type = 'bandpass';
-    windFilter.frequency.value = 450;
-    windFilter.Q.value = 0.8;
-    const windGain = ctx.createGain();
-    windGain.gain.value = 0.025;
-    noise.connect(windFilter).connect(windGain).connect(master);
+    const airFilter = ctx.createBiquadFilter();
+    airFilter.type = 'lowpass';
+    airFilter.frequency.value = 500;
+    const airGain = ctx.createGain();
+    airGain.gain.value = 0.05;
+    const tide = ctx.createOscillator();
+    tide.frequency.value = 0.07;
+    const tideDepth = ctx.createGain();
+    tideDepth.gain.value = 260;
+    tide.connect(tideDepth).connect(airFilter.frequency);
+    tide.start();
+    noise.connect(airFilter).connect(airGain);
+    airGain.connect(master);
+    airGain.connect(reverb);
     noise.start();
 
-    n = { master, delay, droneFilter, drones, lfo, windFilter, windGain };
+    n = { master, reverb, padFilter, swell, voices, airFilter, airGain, tide };
   }
 
-  function ping(time, freq, level) {
+  function twinkle(time, freq, level) {
     const env = ctx.createGain();
     env.gain.setValueAtTime(0, time);
-    env.gain.linearRampToValueAtTime(level, time + 0.015);
-    env.gain.exponentialRampToValueAtTime(0.0001, time + 1.8);
-    env.connect(n.master);
-    env.connect(n.delay);
+    env.gain.linearRampToValueAtTime(level, time + 0.04);
+    env.gain.exponentialRampToValueAtTime(0.0001, time + 3.2);
+    env.connect(n.reverb);
+    const dry = ctx.createGain();
+    dry.gain.value = 0.35;
+    env.connect(dry).connect(n.master);
     const tone = ctx.createOscillator();
     tone.type = 'sine';
     tone.frequency.value = freq;
-    const shimmer = ctx.createOscillator();
-    shimmer.type = 'triangle';
-    shimmer.frequency.value = freq * 2.003;
-    const shimmerLevel = ctx.createGain();
-    shimmerLevel.gain.value = 0.18;
+    const overtone = ctx.createOscillator();
+    overtone.type = 'sine';
+    overtone.frequency.value = freq * 3;
+    const overtoneLevel = ctx.createGain();
+    overtoneLevel.gain.value = 0.06;
     tone.connect(env);
-    shimmer.connect(shimmerLevel).connect(env);
+    overtone.connect(overtoneLevel).connect(env);
     tone.start(time);
-    shimmer.start(time);
-    tone.stop(time + 1.9);
-    shimmer.stop(time + 1.9);
+    overtone.start(time);
+    tone.stop(time + 3.4);
+    overtone.stop(time + 3.4);
   }
 
   // speed: 0 (still) .. ~1.5 (fast scroll); depth: 0 (top) .. 1 (bottom).
@@ -110,20 +141,28 @@ export function createSpaceAudio() {
     if (!on || !ctx || ctx.state !== 'running') return;
     const now = ctx.currentTime;
     const s = Math.min(speed / 1.2, 1);
-    const pitch = Math.pow(2, (depth * 5) / 12);
-    n.drones.forEach(({ osc, mul }) => osc.frequency.setTargetAtTime(BASE * mul * pitch, now, 0.8));
-    n.droneFilter.frequency.setTargetAtTime(380 + s * 1400 + depth * 300, now, 0.25);
-    n.lfo.frequency.setTargetAtTime(0.08 + s * 1.6, now, 0.3);
-    n.windFilter.frequency.setTargetAtTime(420 + s * 2600, now, 0.15);
-    n.windGain.gain.setTargetAtTime(0.025 + s * 0.12, now, 0.15);
 
-    // Ping rhythm: one every 1.4s at rest, down to ~0.13s while scrolling fast.
-    if (nextNote < now) nextNote = now + 0.05;
-    while (nextNote < now + 0.12) {
-      const semis = SCALE[step % SCALE.length];
-      ping(nextNote, 220 * pitch * Math.pow(2, semis / 12), 0.05 + s * 0.03);
-      step += Math.random() < 0.7 ? 1 : 3;
-      nextNote += 1.4 - s * 1.27;
+    // Scrolling brightens the pad, quickens its breathing and lifts the air a touch.
+    n.padFilter.frequency.setTargetAtTime(900 + s * 900 + depth * 400, now, 0.6);
+    n.swell.frequency.setTargetAtTime(0.05 + s * 0.2, now, 1);
+    n.tide.frequency.setTargetAtTime(0.07 + s * 0.18, now, 1);
+    n.airGain.gain.setTargetAtTime(0.05 + s * 0.04, now, 0.5);
+
+    // Chords glide every ~14s at rest, every ~6s while scrolling.
+    if (now >= nextChord) {
+      chordIndex = (chordIndex + 1) % CHORDS.length;
+      n.voices.forEach((oscs, i) => oscs.forEach((osc) => osc.frequency.setTargetAtTime(CHORDS[chordIndex][i], now, 2.5)));
+      nextChord = now + 14 - s * 8;
+    }
+
+    // Twinkles: every 2.5–4.5s at rest, every ~0.5–0.9s while scrolling.
+    if (nextTwinkle < now) nextTwinkle = now + 0.3;
+    if (nextTwinkle < now + 0.1) {
+      const freq = TWINKLE[Math.floor(Math.random() * TWINKLE.length)];
+      twinkle(nextTwinkle, freq, 0.035 + s * 0.015);
+      const rest = 2.5 + Math.random() * 2;
+      const busy = 0.5 + Math.random() * 0.4;
+      nextTwinkle += rest + (busy - rest) * s;
     }
   }
 
@@ -133,10 +172,11 @@ export function createSpaceAudio() {
     if (on) {
       if (!ctx) build();
       await ctx.resume();
-      n.master.gain.setTargetAtTime(0.5, ctx.currentTime, 0.6);
+      nextChord = ctx.currentTime + 6;
+      n.master.gain.setTargetAtTime(0.45, ctx.currentTime, 1.2);
     } else if (ctx) {
-      n.master.gain.setTargetAtTime(0, ctx.currentTime, 0.2);
-      suspendTimer = setTimeout(() => { if (!on) ctx.suspend(); }, 900);
+      n.master.gain.setTargetAtTime(0, ctx.currentTime, 0.3);
+      suspendTimer = setTimeout(() => { if (!on) ctx.suspend(); }, 1400);
     }
     return on;
   }

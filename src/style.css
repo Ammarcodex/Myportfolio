@@ -286,6 +286,20 @@ a{color:inherit;text-decoration:none}
 .nav-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:rgba(44,44,46,.5);transition:border-color .2s,background .2s}
 .nav-icon svg{width:18px;height:18px;fill:#f5f5f7}
 .nav-icon:hover{border-color:var(--silver);background:rgba(255,255,255,.1)}
+.sound-toggle{all:unset;cursor:pointer;position:relative;display:flex;align-items:center;gap:9px;height:42px;padding:0 15px;border-radius:100px;border:1px solid var(--border);background:rgba(44,44,46,.5);font:9px 'DM Mono',monospace;letter-spacing:.14em;color:var(--muted);transition:border-color .2s,background .2s,color .2s}
+.sound-toggle:hover{border-color:var(--silver);color:#fff}
+.sound-toggle:focus-visible{outline:2px solid var(--silver);outline-offset:3px}
+.sound-toggle[aria-pressed="true"]{color:#fff;border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.1)}
+/* Soft pulse until the visitor first tries it, so the control is discoverable. */
+.sound-toggle.hint::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid rgba(255,255,255,.5);animation:sound-hint 2.2s ease-out infinite;pointer-events:none}
+@keyframes sound-hint{from{transform:scale(1);opacity:.8}to{transform:scale(1.35,1.6);opacity:0}}
+.eq{display:flex;align-items:flex-end;gap:2px;height:14px}
+.eq i{width:2px;height:3px;border-radius:2px;background:currentColor;transition:height .3s}
+.sound-toggle[aria-pressed="true"] .eq i{animation:eq 1s ease-in-out infinite}
+.sound-toggle[aria-pressed="true"] .eq i:nth-child(2){animation-delay:-.3s}
+.sound-toggle[aria-pressed="true"] .eq i:nth-child(3){animation-delay:-.6s}
+.sound-toggle[aria-pressed="true"] .eq i:nth-child(4){animation-delay:-.15s}
+@keyframes eq{0%,100%{height:3px}50%{height:14px}}
 
 /* ---------- reveal ---------- */
 .reveal{opacity:0;translate:0 26px;transition:opacity .75s ease var(--rd,0s),translate .75s cubic-bezier(.2,.7,.2,1) var(--rd,0s)}
@@ -336,7 +350,7 @@ a{color:inherit;text-decoration:none}
   .about-copy h2{font-size:42px}
   .stack-section{padding-top:85px;padding-bottom:90px}.stack-layout{grid-template-columns:1fr;gap:35px;margin-top:40px}.stack-big{font-size:72px}.stack-intro h3{font-size:24px}
   .skill-group{grid-template-columns:35px 1fr}
-  .contact-section{min-height:600px;padding-top:100px;padding-bottom:130px}.contact-cards{grid-template-columns:1fr;margin-top:40px}.nav-icon{width:36px;height:36px}.contact-section h2{font-size:clamp(46px,13vw,70px)}
+  .contact-section{min-height:600px;padding-top:100px;padding-bottom:130px}.contact-cards{grid-template-columns:1fr;margin-top:40px}.nav-icon{width:36px;height:36px}.sound-toggle{height:36px;padding:0 12px}.sound-label{display:none}.nav-actions{gap:7px}.contact-section h2{font-size:clamp(46px,13vw,70px)}
   .contact-bottom{left:7vw;right:7vw;flex-wrap:wrap;font-size:7px}.contact-bottom a:nth-child(3){display:none}
 }
 @media(prefers-reduced-motion:reduce){

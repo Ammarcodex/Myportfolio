@@ -1,6 +1,7 @@
 import Lenis from 'lenis';
 import { createUI } from './ui.js';
 import { createWorld, TECH } from './world.js';
+import { createSpaceAudio } from './audio.js';
 
 const state = {
   scroll: 0,
@@ -19,6 +20,32 @@ const lenis = state.reduceMotion ? null : new Lenis({ lerp: 0.09, wheelMultiplie
 state.scrollTo = (top) => (lenis ? lenis.scrollTo(top, { duration: 1.4 }) : window.scrollTo({ top }));
 
 const ui = createUI(state, TECH.map((t) => t.name));
+
+// Space ambience: off until the visitor turns it on (browsers require a gesture).
+const audio = createSpaceAudio();
+const soundButton = document.querySelector('.sound-toggle');
+const readPref = () => { try { return localStorage.getItem('space-sound'); } catch { return null; } };
+const writePref = (v) => { try { localStorage.setItem('space-sound', v); } catch { /* storage blocked */ } };
+function showSound(isOn) {
+  soundButton.setAttribute('aria-pressed', String(isOn));
+  soundButton.setAttribute('aria-label', isOn ? 'Turn space sound off' : 'Turn space sound on');
+}
+soundButton.addEventListener('click', async () => {
+  soundButton.classList.remove('hint');
+  const isOn = await audio.setOn(!audio.on);
+  showSound(isOn);
+  writePref(isOn ? '1' : '0');
+});
+if (readPref() === null) soundButton.classList.add('hint');
+if (readPref() === '1') {
+  // They chose sound last visit: resume it on their first interaction.
+  const resume = (e) => {
+    if (e.target.closest?.('.sound-toggle')) return; // the button's own click handles it
+    if (!audio.on) audio.setOn(true).then(showSound);
+    ['pointerdown', 'keydown', 'touchstart'].forEach((e) => window.removeEventListener(e, resume));
+  };
+  ['pointerdown', 'keydown', 'touchstart'].forEach((e) => window.addEventListener(e, resume, { passive: true }));
+}
 
 let world = null;
 try {
@@ -43,7 +70,13 @@ setTimeout(reveal, 4000);
 function frame(now) {
   lenis?.raf(now);
   ui.update();
-  if (world) ui.renderHud(world.update(now / 1000));
+  if (world) {
+    const hud = world.update(now / 1000);
+    ui.renderHud(hud);
+    audio.update(hud.v, hud.depth);
+  } else {
+    audio.update(Math.min(Math.abs(state.velocity) / 40, 1.5), state.scroll);
+  }
   if (!revealed) requestAnimationFrame(reveal);
   requestAnimationFrame(frame);
 }

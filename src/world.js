@@ -377,6 +377,7 @@ export const TECH = [
 export function createWorld(container, state) {
   const motion = state.reduceMotion ? 0.25 : 1;
   const mobileAtStart = window.innerWidth < 760;
+  const lowPower = state.lowPower;
   const rand = mulberry32(7);
 
   const scene = new THREE.Scene();
@@ -386,8 +387,12 @@ export function createWorld(container, state) {
   camera.position.set(0, 0, START_Z);
   scene.add(camera);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobileAtStart ? 1.5 : 1.75));
+  const renderer = new THREE.WebGLRenderer({ antialias: !lowPower, alpha: true, powerPreference: 'high-performance' });
+  // Adaptive resolution: start at a sensible cap, then step down if frames run long.
+  const maxRatio = Math.min(window.devicePixelRatio, lowPower ? 1.25 : 1.75);
+  const minRatio = lowPower ? 0.75 : 1;
+  let pixelRatio = maxRatio;
+  renderer.setPixelRatio(pixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -409,7 +414,7 @@ export function createWorld(container, state) {
   violetLight.position.set(-5, -2, -3);
   camera.add(violetLight);
 
-  const sky = createSky(mobileAtStart);
+  const sky = createSky(lowPower);
   scene.add(sky.group);
 
   /* hero name in 3D, pinned to the .hero-name box in the page */
@@ -483,7 +488,7 @@ export function createWorld(container, state) {
     { curve: makeStrand(4, 0.34, Math.PI), color: 0x9fd2ff, intensity: 0.8, tube: 0.026, pulses: 90 },
     { curve: makeStrand(8.5, 0.11, 1.2), color: 0xb8c7d9, intensity: 0.45, tube: 0.04, pulses: 40 }
   ];
-  const tubeSegments = mobileAtStart ? 1400 : 2600;
+  const tubeSegments = lowPower ? 800 : 2600;
   strands.forEach((st) => {
     const tube = new THREE.Mesh(new THREE.TubeGeometry(st.curve, tubeSegments, st.tube, 6, false), flowMaterial(st.color, st.intensity, st.pulses));
     tube.frustumCulled = false;
@@ -492,7 +497,7 @@ export function createWorld(container, state) {
 
   // Icons ride the two inner strands, evenly spaced, cycling through every logo.
   const riders = [];
-  const riderCount = mobileAtStart ? 30 : 46;
+  const riderCount = lowPower ? 22 : 46;
   for (let i = 0; i < riderCount; i++) {
     const icon = devIcon(i % DEV_ICONS.length);
     icon.userData = { strand: strands[i % 2].curve, u: i / riderCount, phase: rand() * 6, pop: 0 };
@@ -502,7 +507,7 @@ export function createWorld(container, state) {
   let flow = 0;
 
   /* star dust */
-  const dustCount = mobileAtStart ? 700 : 1400;
+  const dustCount = lowPower ? 450 : 1400;
   const dustPos = new Float32Array(dustCount * 3);
   const dustCol = new Float32Array(dustCount * 3);
   const c = new THREE.Color();
@@ -519,7 +524,7 @@ export function createWorld(container, state) {
   })));
 
   /* speed streaks: stretch with scroll velocity */
-  const streakCount = mobileAtStart ? 120 : 240;
+  const streakCount = lowPower ? 70 : 240;
   const streaks = [];
   const streakPos = new Float32Array(streakCount * 6);
   for (let i = 0; i < streakCount; i++) streaks.push(new THREE.Vector3((rand() - 0.5) * 24, (rand() - 0.5) * 14, START_Z - rand() * 70));
@@ -607,6 +612,8 @@ export function createWorld(container, state) {
   let coreAmount = 0;
   let trailReady = false;
   let last = 0;
+  let frameAvg = 16.7;
+  let lastResize = 0;
   const hud = { z: START_Z, v: 0, depth: 0 };
 
   function resize() {
@@ -691,6 +698,17 @@ export function createWorld(container, state) {
   function update(time) {
     const dt = Math.min(0.05, last ? time - last : 0.016);
     last = time;
+
+    // Smoothed frame time; drop or restore resolution at most once a second.
+    frameAvg += (dt * 1000 - frameAvg) * 0.05;
+    if (time - lastResize > 1) {
+      const next = frameAvg > 22 ? Math.max(minRatio, pixelRatio - 0.15) : frameAvg < 17.5 ? Math.min(maxRatio, pixelRatio + 0.05) : pixelRatio;
+      if (Math.abs(next - pixelRatio) > 0.001) {
+        pixelRatio = next;
+        renderer.setPixelRatio(pixelRatio);
+        lastResize = time;
+      }
+    }
     const t = time * motion;
     const mobile = window.innerWidth < 760;
     const ease = 1 - Math.exp(-dt * 6);

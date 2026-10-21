@@ -8,8 +8,11 @@ const state = {
   velocity: 0,
   pointer: { tx: 0, ty: 0 },
   core: { visible: false, index: 0 },
-  reduceMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  reduceMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  // Phones and tablets: lighter 3D and no per-frame text effects.
+  lowPower: window.matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth < 760
 };
+if (state.lowPower) document.documentElement.classList.add('low-power');
 
 // Inertial smooth scrolling; the 3D scene reads the same eased scroll position.
 const lenis = state.reduceMotion ? null : new Lenis({ lerp: 0.09, wheelMultiplier: 0.95, anchors: { offset: -70 } });

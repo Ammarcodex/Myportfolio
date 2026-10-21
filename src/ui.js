@@ -192,7 +192,7 @@ export function createUI(state, techNames) {
     // pointer, while the extrusion shifts the opposite way like a lit object.
     tilt.x += (state.pointer.tx - tilt.x) * 0.08;
     tilt.y += (state.pointer.ty - tilt.y) * 0.08;
-    words3d.forEach((el) => {
+    if (!state.lowPower) words3d.forEach((el) => {
       const r = el.getBoundingClientRect();
       if (r.bottom < 0 || r.top > window.innerHeight) return;
       const cy = (r.top + r.height / 2) / window.innerHeight - 0.5;

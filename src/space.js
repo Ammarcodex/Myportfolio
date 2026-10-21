@@ -86,7 +86,7 @@ const NOISE = /* glsl */ `
 
 export function createSky(mobile) {
   const group = new THREE.Group();
-  const defines = { OCTAVES: mobile ? 3 : 5 };
+  const defines = { OCTAVES: mobile ? 2 : 5 };
 
   const skyUniforms = { uTime: { value: 0 }, uScroll: { value: 0 } };
   const sky = new THREE.Mesh(
@@ -133,7 +133,7 @@ export function createSky(mobile) {
   group.add(planetRig);
   const planetUniforms = { uTime: { value: 0 }, uLight: { value: new THREE.Vector3(0.8, 0.5, 0.4).normalize() } };
   const planet = new THREE.Mesh(
-    new THREE.SphereGeometry(13, 64, 48),
+    new THREE.SphereGeometry(13, mobile ? 32 : 64, mobile ? 24 : 48),
     new THREE.ShaderMaterial({
       defines,
       uniforms: planetUniforms,

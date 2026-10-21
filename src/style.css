@@ -343,3 +343,21 @@ a{color:inherit;text-decoration:none}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .reveal{opacity:1;translate:none}
 }
+
+/* ---------- phones & tablets: keep scrolling at full frame rate ----------
+   Backdrop blur over a live WebGL canvas re-blurs every frame, and animated
+   shine/tilt re-paints the deep text extrusions, so both are swapped for
+   static equivalents. */
+.low-power *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.low-power .project-card,.low-power .flow-card,.low-power .contact-card{background:rgba(22,22,25,.94)}
+.low-power .core-panel,.low-power .flow-diagram{background:rgba(14,14,16,.95)}
+.low-power .topbar.scrolled{background:rgba(6,6,8,.96)}
+.low-power .gradient-text,.low-power .brand-name,.low-power .brand-mark::after,.low-power .button-glow::after,.low-power .marquee-band{animation:none}
+.low-power .brand-mark::after,.low-power .button-glow::after{display:none}
+.low-power .t3d .gradient-text{filter:drop-shadow(0 2px 0 #6e6e73) drop-shadow(0 2px 0 #3a3a3c) drop-shadow(0 2px 0 #1c1c1e)}
+.low-power .t3d{transform:none}
+.low-power .core-panel{filter:none;transition:opacity .45s,transform .6s cubic-bezier(.2,.8,.2,1)}
+.low-power .cursor-glow,.low-power .noise{display:none}
+.low-power .flow-node rect{filter:none}
+.low-power .section-note,.low-power .about-copy>p,.low-power .hero-lede,.low-power .contact-copy,.low-power .stack-intro p{text-shadow:0 1px 6px var(--bg)}
+

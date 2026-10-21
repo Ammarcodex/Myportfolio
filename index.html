@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#060607" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Ammar Khan — full-stack engineer building with React, Next.js, Three.js, NestJS, Node.js, MongoDB, MySQL and Redis." />
+    <title>Ammar Khan — Creative Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/style.css">
+    <style>
+      /* Inline so the very first paint is dark and covered, before any CSS or JS loads. */
+      html,body{background:#02030a;margin:0}
+      .loader{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#02030a;transition:opacity .7s ease,visibility .7s}
+      .loader.done{opacity:0;visibility:hidden}
+      .loader-mark{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font:800 26px/1 Manrope,system-ui,sans-serif;letter-spacing:-.08em;color:#1c1c1e;background:linear-gradient(180deg,#fdfdfd,#e4e4e9 40%,#b9b9bf 62%,#d9d9de);box-shadow:inset 0 1px 0 #fff,0 0 40px rgba(255,255,255,.18);animation:loader-pulse 1.2s ease-in-out infinite}
+      @keyframes loader-pulse{50%{transform:scale(.92);opacity:.7}}
+    </style>
+  </head>
+  <body>
+    <div class="loader" aria-hidden="true"><div class="loader-mark">A.</div></div>
+    <div id="webgl" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Ammar Khan home"><span class="brand-mark">A.</span><span><span class="brand-name" data-scramble>AMMAR KHAN</span><span class="brand-sub">DIGITAL ENGINEER</span></span></a>
+      <nav class="desktop-nav">
+        <a href="#work">Work</a><a href="#core">Core stack</a><a href="#flow">Architecture</a><a href="#about">About</a><a href="#stack">Toolkit</a>
+      </nav>
+      <div class="nav-actions"><a class="nav-icon" href="https://github.com/Ammarcodex" target="_blank" rel="noopener" aria-label="GitHub profile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a><a class="nav-cta magnetic" href="#contact">Let's talk <span>↗</span></a></div>
+    </header>
+
+    <aside class="hud" aria-hidden="true">
+      <div class="hud-row"><span class="hud-dot"></span>REQUEST IN FLIGHT</div>
+      <div class="hud-grid">
+        <span>DEPTH</span><b id="hud-z">+010.0</b>
+        <span>SPEED</span><b id="hud-v">0.00</b>
+        <span>LAYER</span><b id="hud-layer">ORIGIN</b>
+      </div>
+      <div class="hud-bar"><i id="hud-bar"></i></div>
+    </aside>
+
+    <main>
+      <section class="hero section" id="home" data-layer="ORIGIN">
+        <div class="hero-copy">
+          <div class="eyebrow fade-up" style="--d:.05s"><span class="status-dot"></span> AVAILABLE FOR SELECT PROJECTS <span class="eyebrow-line"></span> 2026</div>
+          <h1 class="sr-only">Ammar Khan — ideas into experiences.</h1>
+          <div class="hero-name" aria-hidden="true"><span>AMMAR KHAN</span></div>
+          <p class="hero-title t3d fade-up" style="--d:.9s">Ideas into <span class="gradient-text">experiences.</span></p>
+          <div class="hero-row fade-up" style="--d:1.05s">
+            <p class="hero-lede">I'm Ammar Khan — a full-stack engineer crafting intelligent platforms, refined interfaces, and digital products built to scale.</p>
+            <div class="hero-side">
+              <div class="hero-stack">
+                <span class="hero-stack-label">BUILDING WITH</span>
+                <span class="word-swap" data-words="React|Next.js|Three.js|NestJS|Node.js|MongoDB|MySQL|Redis" data-colors="#61dafb|#f5f5f7|#d1d1d6|#ff3d6e|#7cc35f|#19d36b|#39a9d6|#ff5a4a">React</span>
+              </div>
+              <div class="hero-actions">
+                <a class="button button-glow magnetic" href="#work">Explore my work <span>↘</span></a>
+                <a class="text-link" href="#core">Follow a request <span>↗</span></a>
+              </div>
+            </div>
+          </div>
+          <div class="hero-meta fade-up" style="--d:1.2s"><span>BASED IN PAKISTAN</span><span class="meta-rule"></span><span>WEB · SYSTEMS · EXPERIMENTS</span></div>
+        </div>
+        <div class="hero-art-label label-bottom">SCROLL TO LAUNCH <span class="scroll-mark">↓</span></div>
+        <div class="hero-index">01 <span>/</span> 07</div>
+      </section>
+
+      <section class="marquee-band" aria-label="Services">
+        <div class="marquee-track">
+          <span>REACT</span><b>✳</b><span>NEXT.JS</span><b>✳</b><span>THREE.JS</span><b>✳</b><span>NESTJS</span><b>✳</b><span>NODE.JS</span><b>✳</b><span>MONGODB</span><b>✳</b><span>MYSQL</span><b>✳</b><span>REDIS</span><b>✳</b><span>ENGINEERING WITH INTENT</span><b>✳</b>
+          <span aria-hidden="true">REACT</span><b>✳</b><span aria-hidden="true">NEXT.JS</span><b>✳</b><span aria-hidden="true">THREE.JS</span><b>✳</b><span aria-hidden="true">NESTJS</span><b>✳</b><span aria-hidden="true">NODE.JS</span><b>✳</b><span aria-hidden="true">MONGODB</span><b>✳</b><span aria-hidden="true">MYSQL</span><b>✳</b><span aria-hidden="true">REDIS</span><b>✳</b><span aria-hidden="true">ENGINEERING WITH INTENT</span><b>✳</b>
+        </div>
+      </section>
+
+      <section class="section work-section" id="work" data-layer="WORK">
+        <div class="section-heading"><div><p class="eyebrow">02 / SELECTED WORK</p><h2 class="t3d">Built to make<br><span class="muted-heading">a difference.</span></h2></div><p class="section-note">A few directions I've explored across product engineering, platforms, and user experiences.</p></div>
+        <div class="project-grid">
+          <a class="project-card project-cyan" data-tilt href="#contact"><div class="project-top"><span>01 — PLATFORM ENGINEERING</span><span class="project-arrow">↗</span></div><div class="project-visual dashboard-visual"><div class="mini-sidebar"></div><div class="mini-main"><div class="mini-title"></div><div class="mini-stats"><i></i><i></i><i></i></div><div class="mini-chart"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div><div class="floating-chip">LIVE DATA <b>●</b></div></div><div class="project-info"><div><h3>CPaaS Intelligence</h3><p>Scalable messaging systems · Analytics · APIs</p></div><span class="round-arrow">↗</span></div></a>
+          <a class="project-card project-lilac" data-tilt href="#contact"><div class="project-top"><span>02 — SOCIAL EXPERIENCE</span><span class="project-arrow">↗</span></div><div class="project-visual chat-visual"><div class="chat-orb">S<span>✳</span></div><div class="chat-bubble bubble-one">hey, stranger 👋</div><div class="chat-bubble bubble-two">what's on your mind?</div><div class="chat-bubble bubble-three">just exploring ✦</div></div><div class="project-info"><div><h3>Stranger</h3><p>Anonymous conversations · Real-time UX</p></div><span class="round-arrow">↗</span></div></a>
+          <a class="project-card project-peach" data-tilt href="#contact"><div class="project-top"><span>03 — SERVICE PLATFORM</span><span class="project-arrow">↗</span></div><div class="project-visual karigar-visual"><div class="k-card"><div class="k-sun">✳</div><div class="k-lines"><i></i><i></i><i></i></div><div class="k-button">Track request <span>↗</span></div></div><div class="k-stamp">MADE<br>USEFUL.</div></div><div class="project-info"><div><h3>Karigar Portal</h3><p>Service workflows · Complaints · Operations</p></div><span class="round-arrow">↗</span></div></a>
+        </div>
+        <p class="project-disclaimer">Concept snapshots of projects and product directions. Ask me for a walkthrough.</p>
+      </section>
+
+      <section class="core-section" id="core" data-layer="CORE">
+        <div class="section core-intro">
+          <div class="section-heading"><div><p class="eyebrow">03 / THE CORE STACK</p><h2 class="t3d">Follow a request<br><span class="muted-heading">through my stack.</span></h2></div><p class="section-note">Eight technologies I build with every day. Keep scrolling: each station lights up in 3D as the request passes through it.</p></div>
+        </div>
+        <div class="core-track">
+          <div class="core-sticky">
+            <nav class="core-rail" aria-label="Core stack stations">
+              <div class="core-rail-line"><i class="core-rail-fill"></i></div>
+              <button type="button" class="active" style="--c:#61dafb"><span>01</span>React</button>
+              <button type="button" style="--c:#f5f5f7"><span>02</span>Next.js</button>
+              <button type="button" style="--c:#d1d1d6"><span>03</span>Three.js</button>
+              <button type="button" style="--c:#ff3d6e"><span>04</span>NestJS</button>
+              <button type="button" style="--c:#7cc35f"><span>05</span>Node.js</button>
+              <button type="button" style="--c:#ff5a4a"><span>06</span>Redis</button>
+              <button type="button" style="--c:#19d36b"><span>07</span>MongoDB</button>
+              <button type="button" style="--c:#39a9d6"><span>08</span>MySQL</button>
+            </nav>
+
+            <div class="core-panels">
+              <article class="core-panel active" style="--c:#61dafb">
+                <div class="core-panel-top"><span>STATION 01</span><span>UI · COMPONENTS</span></div>
+                <h3 class="t3d">React</h3>
+                <p class="core-tagline">Interfaces as components.</p>
+                <p>I build interfaces in React as small, composable components. State lives where it is used, hooks share behaviour without inheritance, and Suspense keeps loading states clean, so even data-heavy dashboards stay easy to change.</p>
+                <ul class="core-tags"><li>Components</li><li>Hooks</li><li>Context</li><li>Suspense</li><li>React Query</li></ul>
+                <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>LiveStats.jsx</span></div><pre><code>function LiveStats({ campaignId }) {
+  const { data, isLoading } = useQuery({
+    queryKey: ['stats', campaignId],
+    queryFn: () =&gt; getStats(campaignId),
+  });
+  if (isLoading) return &lt;Skeleton /&gt;;
+  return &lt;StatGrid items={data} /&gt;;
+}</code></pre></div>
+              </article>
+
+              <article class="core-panel" style="--c:#f5f5f7">
+                <div class="core-panel-top"><span>STATION 02</span><span>FRONTEND · RENDERING</span></div>
+                <h3 class="t3d">Next.js</h3>
+                <p class="core-tagline">The front door.</p>
+                <p>Next.js is where people meet the system. I use the App Router with Server Components and streaming to keep pages fast, static and incremental rendering to keep them cheap, and route handlers so the browser talks to the API through a thin, typed edge.</p>
+                <ul class="core-tags"><li>App Router</li><li>Server Components</li><li>SSR · SSG · ISR</li><li>Route handlers</li></ul>
+                <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>app/campaigns/[id]/page.tsx</span></div><pre><code>export default async function Page({ params }) {
+  const { id } = await params;
+  const data = await fetch(`${API}/campaigns/${id}`, {
+    next: { revalidate: 60 },
+  }).then((r) =&gt; r.json());
+  return &lt;CampaignView data={data} /&gt;;
+}</code></pre></div>
+              </article>
+
+              <article class="core-panel" style="--c:#d1d1d6">
+                <div class="core-panel-top"><span>STATION 03</span><span>3D · WEBGL</span></div>
+                <h3 class="t3d">Three.js</h3>
+                <p class="core-tagline">Depth on the web.</p>
+                <p>Three.js is how I bring 3D into the browser, including this page. Scenes, cameras and lights built in code, physical materials and environment maps for realistic surfaces, and a render loop tied to scroll and pointer so motion feels connected to the person using it.</p>
+                <ul class="core-tags"><li>Scenes &amp; cameras</li><li>PBR materials</li><li>3D type</li><li>Scroll-driven motion</li></ul>
+                <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>scene.js</span></div><pre><code>const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 140);
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
+renderer.setAnimationLoop((t) =&gt; {
+  mesh.rotation.y = t * 0.001;
+  renderer.render(scene, camera);
+});</code></pre></div>
+              </article>
+
+              <article class="core-panel" style="--c:#ff3d6e">
+                <div class="core-panel-top"><span>STATION 04</span><span>API · ARCHITECTURE</span></div>
+                <h3 class="t3d">NestJS</h3>
+                <p class="core-tagline">Structure for the backend.</p>
+                <p>When an API needs to grow, I reach for NestJS. Modules keep each domain separate, dependency injection keeps services testable, and guards, pipes and interceptors handle auth, validation and caching once, in one place, instead of in every route.</p>
+                <ul class="core-tags"><li>Modules &amp; DI</li><li>Guards</li><li>Validation pipes</li><li>Interceptors</li><li>WebSocket gateways</li></ul>
+                <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>campaigns.controller.ts</span></div><pre><code>@Controller('campaigns')
+@UseGuards(JwtAuthGuard)
+export class CampaignsController {
+  constructor(private readonly svc: CampaignsService) {}
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.svc.findOne(id);
+  }
+}</code></pre></div>
+              </article>
+
+              <article class="core-panel" style="--c:#7cc35f">
+                <div class="core-panel-top"><span>STATION 05</span><span>RUNTIME · I/O</span></div>
+                <h3 class="t3d">Node.js</h3>
+                <p class="core-tagline">The runtime underneath.</p>
+                <p>Node.js runs the APIs, workers and real-time services. Its event loop handles thousands of concurrent connections without blocking. I use streams for heavy payloads and separate worker processes for jobs that shouldn't slow down a request.</p>
+                <ul class="core-tags"><li>Event loop</li><li>Streams</li><li>Worker processes</li><li>WebSockets</li></ul>
+                <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>import-events.js</span></div><pre><code>import { pipeline } from 'node:stream/promises';
+
+await pipeline(
+  createReadStream('events.ndjson'),
+  parseLines(),
+  batch(500),
+  writeToMongo(),
+);</code></pre></div>
+              </article>
+
+              <article class="core-panel" style="--c:#ff5a4a">
+                <div class="core-panel-top"><span>STATION 06</span><span>MEMORY · SPEED</span></div>
+                <h3 class="t3d">Redis</h3>
+                <p class="core-tagline">Speed at the edge of memory.</p>
+                <p>Redis sits between the API and the databases. I use it for cache-aside reads with TTLs, rate limiting with atomic counters, background job queues, and pub/sub to push live updates out to every connected client.</p>
+                <ul class="core-tags"><li>Cache-aside</li><li>TTL invalidation</li><li>Rate limiting</li><li>Queues</li><li>Pub/Sub</li></ul>
+                <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>campaigns.service.ts</span></div><pre><code>const key = `campaign:${id}`;
+const hit = await redis.get(key);
+if (hit) return JSON.parse(hit);
+
+const doc = await Campaign.findById(id).lean();
+await redis.set(key, JSON.stringify(doc), 'EX', 60);
+return doc;</code></pre></div>
+              </article>
+
+              <article class="core-panel" style="--c:#19d36b">
+                <div class="core-panel-top"><span>STATION 07</span><span>DOCUMENTS · ANALYTICS</span></div>
+                <h3 class="t3d">MongoDB</h3>
+                <p class="core-tagline">Data shaped like the product.</p>
+                <p>I model data in MongoDB around how it is read: embedded documents where data travels together, references where it doesn't, compound indexes for the hot queries, and aggregation pipelines that turn raw events into analytics.</p>
+                <ul class="core-tags"><li>Schema design</li><li>Compound indexes</li><li>Aggregations</li><li>Transactions</li></ul>
+                <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>analytics.pipeline.js</span></div><pre><code>db.messages.aggregate([
+  { $match: { tenantId, sentAt: { $gte: since } } },
+  { $group: { _id: '$status', total: { $sum: 1 } } },
+  { $sort: { total: -1 } },
+]);</code></pre></div>
+              </article>
+
+              <article class="core-panel" style="--c:#39a9d6">
+                <div class="core-panel-top"><span>STATION 08</span><span>RELATIONAL · INTEGRITY</span></div>
+                <h3 class="t3d">MySQL</h3>
+                <p class="core-tagline">Relational where it counts.</p>
+                <p>When data has strict relationships, like users, billing, orders and permissions, I reach for MySQL. Normalised schemas with foreign keys, indexes checked with EXPLAIN, and transactions so a multi-step write either fully happens or doesn't happen at all.</p>
+                <ul class="core-tags"><li>Foreign keys</li><li>Indexes &amp; EXPLAIN</li><li>Joins</li><li>ACID transactions</li></ul>
+                <div class="code-window"><div class="code-bar"><i></i><i></i><i></i><span>debit-wallet.sql</span></div><pre><code>START TRANSACTION;
+UPDATE wallets SET balance = balance - 50
+  WHERE user_id = 42 AND balance &gt;= 50;
+INSERT INTO ledger (user_id, amount, type)
+  VALUES (42, -50, 'debit');
+COMMIT;</code></pre></div>
+              </article>
+            </div>
+
+            <div class="core-stage">
+              <div class="core-count"><b>01</b> / 08</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="flow-section section" id="flow" data-layer="ARCHITECTURE">
+        <div class="section-heading"><div><p class="eyebrow">04 / HOW IT FITS</p><h2 class="t3d">One request,<br><span class="muted-heading">every layer.</span></h2></div><p class="section-note">How the pieces work together in a typical product I build: render, route, cache, persist, and push updates live.</p></div>
+
+        <div class="flow-diagram">
+          <div class="flow-diagram-top"><span>FIG. 002 — REQUEST LIFECYCLE</span><span class="flow-live"><b>●</b> LIVE</span></div>
+          <svg class="flow-svg flow-wide" viewBox="0 0 1000 450" role="img" aria-label="Browser (React and Three.js) to Next.js to NestJS API on Node.js, which reads from Redis and stores data in MongoDB and MySQL; Redis pub/sub pushes live updates back to the browser.">
+            <defs>
+              <path id="e1" d="M180 240 H250" /><path id="e2" d="M410 240 H480" />
+              <path id="e3" d="M670 215 C740 215 730 100 800 100" /><path id="e4" d="M670 240 H800" />
+              <path id="e5" d="M670 265 C740 265 730 380 800 380" />
+              <path id="e6" d="M885 60 C885 8 100 8 100 200" />
+            </defs>
+            <g class="flow-wires"><use href="#e1" /><use href="#e2" /><use href="#e3" /><use href="#e4" /><use href="#e5" /><use href="#e6" /></g>
+            <g class="flow-edges"><use href="#e1" /><use href="#e2" /><use href="#e3" /><use href="#e4" /><use href="#e5" /><use href="#e6" class="flow-edge-alt" /></g>
+            <text class="flow-edge-label" x="490" y="66" text-anchor="middle">PUB/SUB → WEBSOCKET → LIVE UI</text>
+            <text class="flow-edge-label" x="712" y="146" text-anchor="end">CACHE</text>
+            <text class="flow-edge-label" x="735" y="230" text-anchor="middle">DOCUMENTS</text>
+            <text class="flow-edge-label" x="712" y="350" text-anchor="end">RELATIONAL</text>
+
+            <g class="flow-node" style="--c:#61dafb"><rect x="20" y="200" width="160" height="80" rx="18" /><circle cx="44" cy="224" r="5" /><text class="fn-title" x="100" y="242" text-anchor="middle">Browser</text><text class="fn-sub" x="100" y="262" text-anchor="middle">REACT · THREE.JS</text></g>
+            <g class="flow-node" style="--c:#f5f5f7"><rect x="250" y="200" width="160" height="80" rx="18" /><circle cx="274" cy="224" r="5" /><text class="fn-title" x="330" y="242" text-anchor="middle">Next.js</text><text class="fn-sub" x="330" y="262" text-anchor="middle">SSR · ROUTES</text></g>
+            <g class="flow-node" style="--c:#ff3d6e"><rect x="480" y="186" width="190" height="108" rx="20" /><circle cx="504" cy="210" r="5" /><text class="fn-title" x="575" y="226" text-anchor="middle">NestJS API</text><text class="fn-sub" x="575" y="246" text-anchor="middle">GUARDS · PIPES · DI</text><rect class="fn-chip" x="530" y="259" width="90" height="22" rx="11" /><text class="fn-chip-text" x="575" y="274" text-anchor="middle">ON NODE.JS</text></g>
+            <g class="flow-node" style="--c:#ff5a4a"><rect x="800" y="60" width="170" height="80" rx="18" /><circle cx="824" cy="84" r="5" /><text class="fn-title" x="885" y="102" text-anchor="middle">Redis</text><text class="fn-sub" x="885" y="122" text-anchor="middle">CACHE · QUEUES · PUB/SUB</text></g>
+            <g class="flow-node" style="--c:#19d36b"><rect x="800" y="200" width="170" height="80" rx="18" /><circle cx="824" cy="224" r="5" /><text class="fn-title" x="885" y="242" text-anchor="middle">MongoDB</text><text class="fn-sub" x="885" y="262" text-anchor="middle">DOCUMENTS · AGGREGATES</text></g>
+            <g class="flow-node" style="--c:#39a9d6"><rect x="800" y="340" width="170" height="80" rx="18" /><circle cx="824" cy="364" r="5" /><text class="fn-title" x="885" y="382" text-anchor="middle">MySQL</text><text class="fn-sub" x="885" y="402" text-anchor="middle">TABLES · TRANSACTIONS</text></g>
+
+            <g class="flow-packets">
+              <circle r="5" fill="#61dafb"><animateMotion dur="1.4s" repeatCount="indefinite"><mpath href="#e1" /></animateMotion></circle>
+              <circle r="5" fill="#f5f5f7"><animateMotion dur="1.4s" begin=".5s" repeatCount="indefinite"><mpath href="#e2" /></animateMotion></circle>
+              <circle r="5" fill="#ff5a4a"><animateMotion dur="2s" begin=".2s" repeatCount="indefinite"><mpath href="#e3" /></animateMotion></circle>
+              <circle r="5" fill="#19d36b"><animateMotion dur="1.8s" begin=".9s" repeatCount="indefinite"><mpath href="#e4" /></animateMotion></circle>
+              <circle r="5" fill="#39a9d6"><animateMotion dur="2.4s" begin=".4s" repeatCount="indefinite"><mpath href="#e5" /></animateMotion></circle>
+              <circle r="5" fill="#ff5a4a"><animateMotion dur="4s" repeatCount="indefinite"><mpath href="#e6" /></animateMotion></circle>
+            </g>
+          </svg>
+
+          <svg class="flow-svg flow-tall" viewBox="0 0 360 500" role="img" aria-label="Browser (React and Three.js) to Next.js to NestJS API on Node.js, which reads from Redis and stores data in MongoDB and MySQL; Redis pub/sub pushes live updates back to the browser.">
+            <defs>
+              <path id="m1" d="M180 84 V140" /><path id="m2" d="M180 204 V258" />
+              <path id="m3" d="M145 346 C145 380 61 376 61 410" /><path id="m4" d="M180 346 V410" />
+              <path id="m5" d="M215 346 C215 380 299 376 299 410" />
+              <path id="m6" d="M8 442 C0 442 0 52 100 52" />
+            </defs>
+            <g class="flow-wires"><use href="#m1" /><use href="#m2" /><use href="#m3" /><use href="#m4" /><use href="#m5" /><use href="#m6" /></g>
+            <g class="flow-edges"><use href="#m1" /><use href="#m2" /><use href="#m3" /><use href="#m4" /><use href="#m5" /><use href="#m6" class="flow-edge-alt" /></g>
+            <g class="flow-node" style="--c:#61dafb"><rect x="100" y="20" width="160" height="64" rx="16" /><text class="fn-title" x="180" y="49" text-anchor="middle">Browser</text><text class="fn-sub" x="180" y="68" text-anchor="middle">REACT · THREE.JS</text></g>
+            <g class="flow-node" style="--c:#f5f5f7"><rect x="100" y="140" width="160" height="64" rx="16" /><text class="fn-title" x="180" y="169" text-anchor="middle">Next.js</text><text class="fn-sub" x="180" y="188" text-anchor="middle">SSR · ROUTES</text></g>
+            <g class="flow-node" style="--c:#ff3d6e"><rect x="90" y="258" width="180" height="88" rx="18" /><text class="fn-title" x="180" y="290" text-anchor="middle">NestJS API</text><rect class="fn-chip" x="135" y="306" width="90" height="22" rx="11" /><text class="fn-chip-text" x="180" y="321" text-anchor="middle">ON NODE.JS</text></g>
+            <g class="flow-node" style="--c:#ff5a4a"><rect x="8" y="410" width="106" height="66" rx="14" /><text class="fn-title" x="61" y="440" text-anchor="middle">Redis</text><text class="fn-sub" x="61" y="459" text-anchor="middle">CACHE</text></g>
+            <g class="flow-node" style="--c:#19d36b"><rect x="127" y="410" width="106" height="66" rx="14" /><text class="fn-title" x="180" y="440" text-anchor="middle">MongoDB</text><text class="fn-sub" x="180" y="459" text-anchor="middle">DOCUMENTS</text></g>
+            <g class="flow-node" style="--c:#39a9d6"><rect x="246" y="410" width="106" height="66" rx="14" /><text class="fn-title" x="299" y="440" text-anchor="middle">MySQL</text><text class="fn-sub" x="299" y="459" text-anchor="middle">RELATIONAL</text></g>
+            <g class="flow-packets">
+              <circle r="5" fill="#61dafb"><animateMotion dur="1.2s" repeatCount="indefinite"><mpath href="#m1" /></animateMotion></circle>
+              <circle r="5" fill="#f5f5f7"><animateMotion dur="1.2s" begin=".4s" repeatCount="indefinite"><mpath href="#m2" /></animateMotion></circle>
+              <circle r="5" fill="#ff5a4a"><animateMotion dur="1.6s" begin=".2s" repeatCount="indefinite"><mpath href="#m3" /></animateMotion></circle>
+              <circle r="5" fill="#19d36b"><animateMotion dur="1.3s" begin=".7s" repeatCount="indefinite"><mpath href="#m4" /></animateMotion></circle>
+              <circle r="5" fill="#39a9d6"><animateMotion dur="1.6s" begin=".9s" repeatCount="indefinite"><mpath href="#m5" /></animateMotion></circle>
+              <circle r="5" fill="#ff5a4a"><animateMotion dur="3.4s" repeatCount="indefinite"><mpath href="#m6" /></animateMotion></circle>
+            </g>
+          </svg>
+        </div>
+
+        <div class="flow-cards">
+          <article class="flow-card" style="--c:#ff5a4a"><span class="flow-card-num">READ PATH</span><h3>Cache first.</h3><p>A React page rendered by Next.js asks the NestJS API for data. Redis answers straight from memory when it can; on a miss the API reads the database and warms the cache with a TTL.</p><div class="flow-chain"><b>Next.js</b>→<b>NestJS</b>→<b>Redis</b>→<b>DB</b></div></article>
+          <article class="flow-card" style="--c:#39a9d6"><span class="flow-card-num">WRITE PATH</span><h3>The right store.</h3><p>NestJS pipes validate the payload. Flexible documents go to MongoDB, strictly related records go to MySQL inside a transaction, and the matching Redis keys are cleared.</p><div class="flow-chain"><b>NestJS</b>→<b>MongoDB · MySQL</b>→<b>Redis DEL</b></div></article>
+          <article class="flow-card" style="--c:#d1d1d6"><span class="flow-card-num">REAL-TIME PATH</span><h3>Push, don't poll.</h3><p>Node.js workers publish events through Redis pub/sub, and a WebSocket gateway sends them to every open Next.js client.</p><div class="flow-chain"><b>Node.js</b>→<b>Redis Pub/Sub</b>→<b>WebSocket</b></div></article>
+        </div>
+      </section>
+
+      <section class="about-section section" id="about" data-layer="ABOUT">
+        <div class="ring-scene" aria-hidden="true">
+          <div class="ring">
+            <span class="ring-face" style="--i:0;--c:#61dafb">REACT</span>
+            <span class="ring-face" style="--i:1;--c:#f5f5f7">NEXT.JS</span>
+            <span class="ring-face" style="--i:2;--c:#d1d1d6">THREE.JS</span>
+            <span class="ring-face" style="--i:3;--c:#ff3d6e">NESTJS</span>
+            <span class="ring-face" style="--i:4;--c:#7cc35f">NODE.JS</span>
+            <span class="ring-face" style="--i:5;--c:#ff5a4a">REDIS</span>
+            <span class="ring-face" style="--i:6;--c:#19d36b">MONGODB</span>
+            <span class="ring-face" style="--i:7;--c:#39a9d6">MYSQL</span>
+          </div>
+          <div class="ring-core">A.</div>
+          <div class="ring-shadow"></div>
+          <div class="ring-caption">EIGHT TOOLS<br>ONE PRODUCT</div>
+        </div>
+        <div class="about-copy"><p class="eyebrow">05 / HOW I THINK</p><h2 class="t3d">Curious by nature.<br><span class="gradient-text">Engineer by craft.</span></h2><p>I enjoy connecting the dots between a clean interface and the complex systems behind it. From backend APIs and data-heavy dashboards to playful web experiments, I care about the whole experience — not just the screen.</p><p>My work spans full-stack product development, real-time systems, and exploring new ways to bring the web to life with motion and 3D.</p><a class="text-link" href="#contact">Let's build something meaningful <span>↗</span></a></div>
+      </section>
+
+      <section class="stack-section section" id="stack" data-layer="TOOLKIT">
+        <div class="section-heading"><div><p class="eyebrow">06 / MY TOOLKIT</p><h2 class="t3d">The right tools<br><span class="muted-heading">for the job.</span></h2></div><p class="section-note">A flexible toolkit for shipping products from interface to infrastructure.</p></div>
+        <div class="stack-layout">
+          <div class="stack-intro"><span class="stack-big t3d">∞</span><h3>Build. Connect.<br>Keep improving.</h3><p>I choose technology based on the problem, with a focus on maintainability, performance, and a thoughtful user experience.</p></div>
+          <div class="skill-groups">
+            <div class="skill-group"><span class="skill-num">01</span><div><h4>FRONTEND</h4><div class="skill-pills"><span class="core-pill">React</span><span class="core-pill">Next.js</span><span>JavaScript</span><span>TypeScript</span><span>HTML / CSS</span><span class="core-pill">Three.js</span></div></div></div>
+            <div class="skill-group"><span class="skill-num">02</span><div><h4>BACKEND & DATA</h4><div class="skill-pills"><span class="core-pill">Node.js</span><span class="core-pill">NestJS</span><span>REST APIs</span><span class="core-pill">MongoDB</span><span class="core-pill">MySQL</span><span class="core-pill">Redis</span></div></div></div>
+            <div class="skill-group"><span class="skill-num">03</span><div><h4>INFRA & SYSTEMS</h4><div class="skill-pills"><span>Docker</span><span>Git</span><span>Kafka</span><span>Elasticsearch</span><span>Linux</span><span>CI / CD</span></div></div></div>
+            <div class="skill-group"><span class="skill-num">04</span><div><h4>EXPLORING</h4><div class="skill-pills"><span>WebGL</span><span>Creative coding</span><span>AI-assisted tools</span><span>Motion design</span></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-section section" id="contact" data-layer="DESTINATION">
+        <p class="eyebrow">07 / YOUR MOVE</p><h2 class="t3d">Have a good<br>problem to <span class="gradient-text">solve?</span></h2><p class="contact-copy">Let's turn a bold idea into something people love to use.</p><a class="button button-glow contact-button magnetic" href="mailto:ammarcodex@gmail.com?subject=Let's%20build%20something">Start a conversation <span>↗</span></a>
+        <div class="contact-cards">
+          <a class="contact-card" style="--c:#ea4335" href="mailto:ammarcodex@gmail.com?subject=Let's%20build%20something"><span class="contact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg></span><span class="contact-label">EMAIL</span><span class="contact-value">ammarcodex@gmail.com</span><span class="contact-arrow">↗</span></a>
+          <a class="contact-card" style="--c:#25d366" href="https://wa.me/923121118181?text=Hi%20Ammar%2C%20I%20saw%20your%20portfolio" target="_blank" rel="noopener"><span class="contact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></span><span class="contact-label">WHATSAPP</span><span class="contact-value">+92 312 1118181</span><span class="contact-arrow">↗</span></a>
+          <a class="contact-card" style="--c:#d1d1d6" href="tel:+923121118181"><span class="contact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></span><span class="contact-label">PHONE</span><span class="contact-value">+92 312 1118181</span><span class="contact-arrow">↗</span></a>
+          <a class="contact-card" style="--c:#f5f5f7" href="https://github.com/Ammarcodex" target="_blank" rel="noopener"><span class="contact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span><span class="contact-label">GITHUB</span><span class="contact-value">@Ammarcodex</span><span class="contact-arrow">↗</span></a>
+        </div>
+        <div class="contact-bottom"><span>AMMAR KHAN © 2026</span><a href="https://github.com/Ammarcodex" target="_blank" rel="noopener">GITHUB ↗</a><a href="mailto:ammarcodex@gmail.com">AMMARCODEX@GMAIL.COM</a><a href="#home">BACK TO TOP ↑</a></div>
+      </section>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

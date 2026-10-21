@@ -32,7 +32,9 @@ function showSound(isOn) {
 }
 soundButton.addEventListener('click', async () => {
   soundButton.classList.remove('hint');
+  soundButton.classList.add('loading'); // first start renders the loop (~1s)
   const isOn = await audio.setOn(!audio.on);
+  soundButton.classList.remove('loading');
   showSound(isOn);
   writePref(isOn ? '1' : '0');
 });
@@ -73,10 +75,8 @@ function frame(now) {
   if (world) {
     const hud = world.update(now / 1000);
     ui.renderHud(hud);
-    audio.update(hud.v, hud.depth);
-  } else {
-    audio.update(Math.min(Math.abs(state.velocity) / 40, 1.5), state.scroll);
   }
+  audio.update(state.velocity);
   if (!revealed) requestAnimationFrame(reveal);
   requestAnimationFrame(frame);
 }

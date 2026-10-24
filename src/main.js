@@ -22,7 +22,7 @@ state.scrollTo = (top) => (lenis ? lenis.scrollTo(top, { duration: 1.4 }) : wind
 const ui = createUI(state, TECH.map((t) => t.name));
 
 // Space ambience: off until the visitor turns it on (browsers require a gesture).
-const audio = createSpaceAudio();
+const audio = createSpaceAudio('ocean');
 const soundButton = document.querySelector('.sound-toggle');
 const readPref = () => { try { return localStorage.getItem('space-sound'); } catch { return null; } };
 const writePref = (v) => { try { localStorage.setItem('space-sound', v); } catch { /* storage blocked */ } };
